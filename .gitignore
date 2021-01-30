@@ -3,9 +3,8 @@
 ### Example user template
 
 # IntelliJ project files
-.idea
 *.iml
 out
 gen
-freezer-back/target/
-freezer-back/.idea/
+.idea
+freezer-back/target/    
