@@ -1,8 +1,9 @@
 package cn.xhu.entity;
 
 /**
- * @auther TyCoding
- * @date 2018/7/18
+ * @author:zx
+ * @create time:2021/1/31
+ * @desciption:
  */
 public class Permission {
     private Long id; //权限编号

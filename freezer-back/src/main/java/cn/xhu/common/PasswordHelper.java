@@ -8,8 +8,9 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Component;
 
 /**
- * @auther TyCoding
- * @date 2018/7/18
+ * @author:zx
+ * @create time:2021/1/31
+ * @desciption:
  */
 @Component
 public class PasswordHelper {

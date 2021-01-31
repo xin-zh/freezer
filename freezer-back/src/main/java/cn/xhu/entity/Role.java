@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @auther TyCoding
- * @date 2018/7/18
+ * @author:zx
+ * @create time:2021/1/31
+ * @desciption:
  */
 public class Role implements Serializable {
     private Long id; //角色编号

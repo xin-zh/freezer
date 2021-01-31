@@ -8,8 +8,9 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @auther TyCoding
- * @date 2018/7/18
+ * @author:zx
+ * @create time:2021/1/31
+ * @desciption:
  */
 public interface UserMapper {
 

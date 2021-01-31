@@ -7,8 +7,9 @@ import cn.xhu.entity.User;
 import java.util.List;
 
 /**
- * @auther TyCoding
- * @date 2018/7/18
+ * @author:zx
+ * @create time:2021/1/31
+ * @desciption:
  */
 public interface UserService extends BaseService<User> {
 

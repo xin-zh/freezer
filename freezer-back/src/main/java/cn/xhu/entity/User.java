@@ -3,8 +3,9 @@ package cn.xhu.entity;
 import java.io.Serializable;
 
 /**
- * @auther TyCoding
- * @date 2018/7/18
+ * @author:zx
+ * @create time:2021/1/31
+ * @desciption:
  */
 public class User implements Serializable {
     private Long id; //用户编号

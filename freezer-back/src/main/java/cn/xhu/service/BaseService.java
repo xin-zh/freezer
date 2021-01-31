@@ -3,10 +3,9 @@ package cn.xhu.service;
 import java.util.List;
 
 /**
- * 封装通用的接口
- *
- * @auther TyCoding
- * @date 2018/9/6
+ * @author:zx
+ * @create time:2021/1/31
+ * @desciption:封装通用的接口
  */
 public interface BaseService<T> {
 

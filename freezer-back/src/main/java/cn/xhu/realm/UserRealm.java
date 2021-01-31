@@ -17,8 +17,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @auther TyCoding
- * @date 2018/7/18
+ * @author:zx
+ * @create time:2021/1/31
+ * @desciption:
  */
 public class UserRealm extends AuthorizingRealm {
 

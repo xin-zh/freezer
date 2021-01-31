@@ -11,8 +11,9 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @auther TyCoding
- * @date 2018/7/18
+ * @author:zx
+ * @create time:2021/1/31
+ * @desciption:
  */
 @Component
 public class UserDaoImpl implements UserDao {
