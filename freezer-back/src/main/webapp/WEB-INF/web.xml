@@ -21,7 +21,11 @@
   <!-- 加载Spring配置  -->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:spring-*.xml</param-value>
+    <param-value>
+      classpath:spring-mvc.xml
+      classpath:spring-beans.xml
+      classpath:spring-shiro.xml
+    </param-value>
   </context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -48,7 +52,7 @@
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>classpath:springmvc.xml</param-value>
+      <param-value>classpath:spring-mvc.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
     <!--<async-supported>true</async-supported>-->
