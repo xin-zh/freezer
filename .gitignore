@@ -7,4 +7,6 @@
 out
 gen
 .idea
-freezer-back/target/    
+freezer-back/target/
+#freezer-front/freezer-front-admin/node_modules/
+#freezer-front/freezer-front-user/node_modules/
