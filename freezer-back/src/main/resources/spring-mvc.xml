@@ -12,6 +12,7 @@
          http://www.springframework.org/schema/tx http://www.springframework.org/schema/context/spring-tx.xsd
          http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+    <import resource="spring-shiro.xml"/>
     <!-- 开启注解扫描 -->
     <context:component-scan base-package="cn.xhu"/>
 
@@ -30,6 +31,18 @@
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/"/>
         <property name="suffix" value=".jsp"/>
+    </bean>
+
+
+    <!-- 配置文件上传，如果没有使用文件上传可以不用配置，当然如果不配，那么配置文件中也不必引入上传组件包 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 默认编码 -->
+        <property name="defaultEncoding" value="utf-8" />
+        <!-- 文件大小最大值 -->
+        <property name="maxUploadSize" value="10485760000" />
+        <!-- 内存中的最大值 -->
+        <property name="maxInMemorySize" value="40960" />
     </bean>
 
     <!-- 控制器异常处理，用来处理权限、角色验证失败出现的UnauthorizedException异常 -->
