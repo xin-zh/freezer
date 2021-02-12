@@ -41,58 +41,57 @@
 
 <script>
 export default {
-    name:"customer-list",
-    data() {
-        return {
-            paginator: {
-                pageNumber: 1,
-                pageSize: 10,
-                totalCount: 0,
-                pageSizes: [10, 20, 50]
-            },
-            formQuery: {
-                customerName: "",
-                realName:"",
-                customerTel: "",
-            },
-            tableData: [],
-        };
-    },
-    mounted() {
-        this.onQueryPage();
-    },
-    methods: {
-        
-        pageSizeChanged(val) {
-            this.paginator.pageSize = val;
-            this.paginator.pageNumber = 1;
-            this.onQueryPage();
-        },
-        pageClick(val) {
-            this.paginator.pageNumber = val;
-            this.onQueryPage();
-        },
-        async onQueryPage() {
-            this.$spinner();
-            try {
-                
-                let result = await this.axios.post("/customer/pageList", {
-                    customerName: this.formQuery.customerName,
-                    customerTel:this.formQuery.customerTel,
-                    realName: this.formQuery.realName,
-                    page: this.paginator.pageNumber,
-                    pageSize: this.paginator.pageSize
-                });
-                if (result && result.data.data && result.data.success) {
-                    this.tableData = result.data.data.customerList;
-                    this.paginator.totalCount = result.data.data.pager.totalCount;
-                }
-            } catch (err) {
-                this.$message.error("获取客户列表信息异常");
-            } finally {
-                this.$stopSpinner();
-            }
-        }
+  name: 'customer-list',
+  data () {
+    return {
+      paginator: {
+        pageNumber: 1,
+        pageSize: 10,
+        totalCount: 0,
+        pageSizes: [10, 20, 50]
+      },
+      formQuery: {
+        customerName: '',
+        realName: '',
+        customerTel: ''
+      },
+      tableData: []
     }
-};
+  },
+  mounted () {
+    this.onQueryPage()
+  },
+  methods: {
+
+    pageSizeChanged (val) {
+      this.paginator.pageSize = val
+      this.paginator.pageNumber = 1
+      this.onQueryPage()
+    },
+    pageClick (val) {
+      this.paginator.pageNumber = val
+      this.onQueryPage()
+    },
+    async onQueryPage () {
+      this.$spinner()
+      try {
+        let result = await this.axios.post('/customer/pageList', {
+          customerName: this.formQuery.customerName,
+          customerTel: this.formQuery.customerTel,
+          realName: this.formQuery.realName,
+          page: this.paginator.pageNumber,
+          pageSize: this.paginator.pageSize
+        })
+        if (result && result.data.data && result.data.success) {
+          this.tableData = result.data.data.customerList
+          this.paginator.totalCount = result.data.data.pager.totalCount
+        }
+      } catch (err) {
+        this.$message.error('获取客户列表信息异常')
+      } finally {
+        this.$stopSpinner()
+      }
+    }
+  }
+}
 </script>

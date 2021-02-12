@@ -1,6 +1,6 @@
 package cn.xhu.common;
 
-import cn.xhu.entity.User;
+import cn.xhu.core.pojo.User;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -50,13 +50,13 @@ public class PasswordHelper {
     public void encryptPassword(User user){
         if (user.getPassword() != null){
             //对user对象设置盐：salt；这个盐值是randomNumberGenerator生成的随机数，所以盐值并不需要我们指定
-            user.setSalt(randomNumberGenerator.nextBytes().toHex());
+//            user.setSalt(randomNumberGenerator.nextBytes().toHex());
 
             //调用SimpleHash指定散列算法参数：1、算法名称；2、用户输入的密码；3、盐值（随机生成的）；4、迭代次数
             String newPassword = new SimpleHash(
                     algorithName,
                     user.getPassword(),
-                    ByteSource.Util.bytes(user.getCredentialsSalt()),
+//                    ByteSource.Util.bytes(user.getCredentialsSalt()),
                     hashInterations).toHex();
 
             user.setPassword(newPassword);

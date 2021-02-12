@@ -12,7 +12,7 @@
     </bean>
 
     <!-- 凭证匹配器 -->
-    <bean id="credentialsMatcher" class="cn.xhu.credentials.RetryLimitHashedCredentialsMatcher">
+    <bean id="credentialsMatcher" class="cn.xhu.common.credentials.RetryLimitHashedCredentialsMatcher">
         <!-- 使用Spring构造器注入cacheManager -->
         <constructor-arg ref="cacheManager"/>
         <!-- 指定散列算法名称 -->
@@ -24,7 +24,7 @@
     </bean>
 
     <!-- Realm实现 -->
-    <bean id="userRealm" class="cn.xhu.realm.UserRealm">
+    <bean id="userRealm" class="cn.xhu.core.config.UserRealm">
         <!-- 使用credentialsMatcher实现密码验证服务 -->
         <property name="credentialsMatcher" ref="credentialsMatcher"/>
         <!-- 是否启用缓存 -->

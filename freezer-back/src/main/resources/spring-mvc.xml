@@ -15,7 +15,6 @@
     <import resource="spring-shiro.xml"/>
     <!-- 开启注解扫描 -->
     <context:component-scan base-package="cn.xhu"/>
-
     <!-- Shiro提供了相应的注解实现权限控制，但是需要AOP功能的支持
          定义AOP切面，用于代理如@RequiresRole注解的控制器，进行权限控制
     -->
