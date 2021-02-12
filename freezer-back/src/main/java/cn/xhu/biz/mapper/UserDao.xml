@@ -11,7 +11,7 @@
         <where>
             1=1
             <if test="userName!='' and userName!=null">
-                user_name=${userName}
+                and user_name=#{userName}
             </if>
 
         </where>

@@ -6,6 +6,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import javax.xml.crypto.Data;
+import java.sql.SQLException;
 
 /**
  * @author:zx
@@ -20,8 +21,9 @@ public class BaseTest {
     private DataSource dataSource;
 
     @Test
-    public void test(){
+    public void test() throws SQLException {
         System.out.println(dataSource);
+        System.out.println(dataSource.getConnection());
     }
 
 }
