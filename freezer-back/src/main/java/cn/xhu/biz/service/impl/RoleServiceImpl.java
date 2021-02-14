@@ -1,6 +1,11 @@
 package cn.xhu.biz.service.impl;
 
+import cn.xhu.biz.dao.MenuDao;
+import cn.xhu.biz.dao.RoleDao;
+import cn.xhu.biz.dao.UserDao;
 import cn.xhu.biz.service.RoleService;
+import cn.xhu.common.utils.CollectionUtils;
+import cn.xhu.converter.RoleConverter;
 import cn.xhu.core.pojo.Role;
 import cn.xhu.core.req.role.ReqPageQueryRoleVO;
 import cn.xhu.core.req.role.ReqRoleVO;
@@ -10,6 +15,8 @@ import cn.xhu.core.resp.RespRoleVO;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -20,33 +27,60 @@ import java.util.List;
 
 @Service
 public class RoleServiceImpl implements RoleService {
-    @Override
-    public RespRoleVO queryRoleByExample(ReqRoleVO req) {
-        return null;
-    }
+    @Resource
+    private RoleDao       roleDao;
+    @Resource
+    private UserDao userDao;
+    @Resource
+    private RoleConverter roleConverter;
 
     @Override
     public PageInfo<RespRoleVO> queryPageRoles(ReqPageQueryRoleVO req) {
-        return null;
+        PageInfo<RespRoleVO> pageInfo = null;
+        try {
+            List<Role> roles = roleDao.queryPageRoles(req);
+            if (CollectionUtils.isNotEmpty(roles)) {
+                pageInfo = new PageInfo<>();
+                pageInfo.setList(roleConverter.d2vs(roles));
+            }
+        } catch (Exception e) {
+            throw new SQLException("查询出错");
+        } finally {
+            return pageInfo;
+        }
     }
 
     @Override
-    public int saveRole(SaveRoleReqVO req) {
-        return 0;
+    public Long saveRole(ReqRoleVO req) {
+        Long result = null;
+        try {
+            //新增
+            if (req.getId() == null) {
+                result = roleDao.insert(req);
+            }
+            //修改
+            else {
+                result = roleDao.update(req);
+            }
+        } catch (Exception e) {
+            throw new SQLException("保存员工信息失败");
+        } finally {
+            return result;
+        }
     }
 
     @Override
-    public int deleteRole(Long id) {
-        return 0;
+    public void deleteRole(Long id) {
+        roleDao.delete(id);
     }
 
     @Override
-    public int deleteAllRoleMenus(Long id) {
-        return 0;
+    public void deleteAllRoleMenus(Long id) {
+        roleDao.deleteRoleMenuByRoleId(id);
     }
 
     @Override
     public List<Role> queryRolesByUser(ReqUserRoleVO req) {
-        return null;
+        return userDao.queryRolesByUserName(req.getUserName());
     }
 }

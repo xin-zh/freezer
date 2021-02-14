@@ -29,58 +29,58 @@
     </el-form>
   </div>
 </template>
- 
+
 <script>
-import SIdentify from "@/components/identify";
+import SIdentify from '@/components/identify'
 export default {
-  name: "Login",
+  name: 'Login',
   components: {
     SIdentify
   },
-  data() {
+  data () {
     var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
+      if (value === '') {
+        callback(new Error('请输入密码'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     var validateUsername = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入用户名"));
+      if (value === '') {
+        callback(new Error('请输入用户名'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     var validateCode = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入验证码"));
+      if (value === '') {
+        callback(new Error('请输入验证码'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       ruleForm: {
-        pass: "",
-        username: "",
-        code: ""
+        pass: '',
+        username: '',
+        code: ''
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
-        username: [{ validator: validateUsername, trigger: "blur" }],
-        code: [{ validator: validateCode, trigger: "blur" }]
+        pass: [{ validator: validatePass, trigger: 'blur' }],
+        username: [{ validator: validateUsername, trigger: 'blur' }],
+        code: [{ validator: validateCode, trigger: 'blur' }]
       },
-      identifyCodes: "1234567890",
-      identifyCode: ""
-    };
+      identifyCodes: '1234567890',
+      identifyCode: ''
+    }
   },
-  mounted() {
-    this.identifyCode = "";
-    this.makeCode(this.identifyCodes, 4);
+  mounted () {
+    this.identifyCode = ''
+    this.makeCode(this.identifyCodes, 4)
   },
   methods: {
-    submitForm(formName) {
-      let _this = this;
+    submitForm (formName) {
+      let _this = this
       //   this.$refs[formName].validate(valid => {
       //       console.log(valid)
       //     if (valid) {
@@ -94,61 +94,61 @@ export default {
       this.$http
         .get(`/qlogin?username=${formName.username}&password=${formName.pass}`)
         .then(resp => {
-          console.log(resp);
+          console.log(resp)
           if (formName.code != this.identifyCode) {
             this.$message({
-              type: "info",
-              message: "验证码错误"
-            });
-          } else if (resp.data == "success") {
-            sessionStorage.setItem("token", "true");
-            sessionStorage.setItem("username", formName.username);
-            sessionStorage.setItem("password", formName.pass);
-            _this.$router.push({ path: "/" });
+              type: 'info',
+              message: '验证码错误'
+            })
+          } else if (resp.data == 'success') {
+            sessionStorage.setItem('token', 'true')
+            sessionStorage.setItem('username', formName.username)
+            sessionStorage.setItem('password', formName.pass)
+            _this.$router.push({ path: '/' })
             this.$message({
-              type: "success",
-              message: "登录成功"
-            });
-          } else if (resp.data == "wrong password") {
+              type: 'success',
+              message: '登录成功'
+            })
+          } else if (resp.data == 'wrong password') {
             this.$message({
-              type: "info",
-              message: "密码错误"
-            });
-            _this.$router.push({ path: "/login" });
-          } else if (resp.data == "no user") {
+              type: 'info',
+              message: '密码错误'
+            })
+            _this.$router.push({ path: '/login' })
+          } else if (resp.data == 'no user') {
             this.$message({
-              type: "info",
-              message: "用户名不存在"
-            });
-            _this.$router.push({ path: "/login" });
+              type: 'info',
+              message: '用户名不存在'
+            })
+            _this.$router.push({ path: '/login' })
           }
-        });
+        })
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
     },
-    gotoRegister() {
-      this.$router.replace("/register");
+    gotoRegister () {
+      this.$router.replace('/register')
     },
-    randomNum(min, max) {
-      return Math.floor(Math.random() * (max - min) + min);
+    randomNum (min, max) {
+      return Math.floor(Math.random() * (max - min) + min)
     },
-    refreshCode() {
-      this.identifyCode = "";
-      this.makeCode(this.identifyCodes, 4);
+    refreshCode () {
+      this.identifyCode = ''
+      this.makeCode(this.identifyCodes, 4)
     },
-    makeCode(o, l) {
+    makeCode (o, l) {
       for (let i = 0; i < l; i++) {
         this.identifyCode += this.identifyCodes[
           this.randomNum(0, this.identifyCodes.length)
-        ];
+        ]
       }
       // console.log(this.identifyCode);
     }
   }
-};
+}
 </script>
- 
+
 <style scoped>
 body {
   margin: 0;

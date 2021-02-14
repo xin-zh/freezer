@@ -36,131 +36,131 @@
     </el-form>
   </div>
 </template>
- 
+
 <script>
 export default {
-  name: "Register",
+  name: 'Register',
   components: {},
-  data() {
+  data () {
     var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
+      if (value === '') {
+        callback(new Error('请输入密码'))
       } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
+        if (this.ruleForm.checkPass !== '') {
+          this.$refs.ruleForm.validateField('checkPass')
         }
-        callback();
+        callback()
       }
-    };
+    }
     var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
       } else if (value !== this.ruleForm.pass) {
-        callback(new Error("两次输入密码不一致!"));
+        callback(new Error('两次输入密码不一致!'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     var validateUsername = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入用户名"));
+      if (value === '') {
+        callback(new Error('请输入用户名'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     var validateCode = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入验证码"));
+      if (value === '') {
+        callback(new Error('请输入验证码'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     var checkPhone = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error("手机号不能为空"));
+        return callback(new Error('手机号不能为空'))
       } else {
-        const reg = /^1[3|4|5|7|8][0-9]\d{8}$/;
-        console.log(reg.test(value));
+        const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
+        console.log(reg.test(value))
         if (reg.test(value)) {
-          callback();
+          callback()
         } else {
-          return callback(new Error("请输入正确的手机号"));
+          return callback(new Error('请输入正确的手机号'))
         }
       }
-    };
+    }
     return {
       ruleForm: {
-        pass: "",
-        username: "",
-        code: "",
-        checkPass: "",
-        phone: ""
+        pass: '',
+        username: '',
+        code: '',
+        checkPass: '',
+        phone: ''
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
-        username: [{ validator: validateUsername, trigger: "blur" }],
-        code: [{ validator: validateCode, trigger: "blur" }],
-        checkPass: [{ validator: validatePass2, trigger: "blur" }],
-        phone: [{ validator: checkPhone, trigger: "blur" }]
+        pass: [{ validator: validatePass, trigger: 'blur' }],
+        username: [{ validator: validateUsername, trigger: 'blur' }],
+        code: [{ validator: validateCode, trigger: 'blur' }],
+        checkPass: [{ validator: validatePass2, trigger: 'blur' }],
+        phone: [{ validator: checkPhone, trigger: 'blur' }]
       },
       show: true,
       count: 60,
       timer: null
-    };
+    }
   },
   methods: {
-    submitForm(formName) {
-      let _this = this;
+    submitForm (formName) {
+      let _this = this
       this.$http
         .get(
           `/register?username=${formName.username}&password=${formName.pass}&code=${formName.code}`
         )
         .then(resp => {
-          console.log(resp);
-          if (resp.data == "register success") {
+          console.log(resp)
+          if (resp.data == 'register success') {
             this.$message({
-              type: "success",
-              message: "注册成功"
-            });
-            _this.$router.push({ path: "/" });
-          }else if(resp.data == "wrong code"){
+              type: 'success',
+              message: '注册成功'
+            })
+            _this.$router.push({ path: '/' })
+          } else if (resp.data == 'wrong code') {
             this.$message({
-              type: "info",
-              message: "验证码不正确"
-            });
+              type: 'info',
+              message: '验证码不正确'
+            })
           }
-        });
+        })
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
     },
-    gotoLogin() {
-      this.$router.replace("/login");
+    gotoLogin () {
+      this.$router.replace('/login')
     },
-    sendCode() {
-      if (this.ruleForm.phone === "") {
-        alert("手机号不能为空！");
+    sendCode () {
+      if (this.ruleForm.phone === '') {
+        alert('手机号不能为空！')
       } else {
         this.$http.get(`/send?phone=${this.ruleForm.phone}`).then(resp => {
-          console.log(resp);
-        });
-        this.count = 60;
-        this.show = false;
+          console.log(resp)
+        })
+        this.count = 60
+        this.show = false
         this.timer = setInterval(() => {
           if (this.count > 0 && this.count <= 60) {
-            this.count--;
+            this.count--
           } else {
-            this.show = true;
-            clearInterval(this.timer);
-            this.timer = null;
+            this.show = true
+            clearInterval(this.timer)
+            this.timer = null
           }
-        }, 1000);
+        }, 1000)
       }
     }
   }
-};
+}
 </script>
- 
+
 <style scoped>
 body {
   margin: 0;

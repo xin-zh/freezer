@@ -1,7 +1,12 @@
 package cn.xhu.biz.service.impl;
 
+import cn.xhu.biz.dao.MenuDao;
+import cn.xhu.biz.dao.RoleDao;
 import cn.xhu.biz.service.MenuService;
+import cn.xhu.common.utils.CollectionUtils;
+import cn.xhu.converter.MenuConverter;
 import cn.xhu.core.pojo.Menu;
+import cn.xhu.core.pojo.Role;
 import cn.xhu.core.req.menu.ReqMenuVO;
 import cn.xhu.core.req.menu.ReqPageQueryMenuVO;
 import cn.xhu.core.req.menu.SaveMenuReqVO;
@@ -11,7 +16,11 @@ import cn.xhu.core.resp.RespRoleVO;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author:zx
@@ -21,33 +30,66 @@ import java.util.List;
 
 @Service
 public class MenuServiceImpl implements MenuService {
-    @Override
-    public List<RespMenuVO> getPermissionByUser(Long id) {
-        return null;
-    }
+    @Resource
+    private MenuDao menuDao;
+
+    @Resource
+    private RoleDao       roleDao;
+    @Resource
+    private MenuConverter menuConverter;
 
     @Override
-    public RespRoleVO queryMenuByExample(ReqMenuVO req) {
-        return null;
+    public RespMenuVO queryById(Long id) {
+        return menuConverter.d2v(menuDao.queryById(id));
     }
 
     @Override
     public PageInfo<RespMenuVO> queryPageMenus(ReqPageQueryMenuVO req) {
-        return null;
+        List<Menu> menus = menuDao.queryPageMenus(req);
+        PageInfo<RespMenuVO> pageInfo=null;
+        try{
+            if(CollectionUtils.isNotEmpty(menus)){
+                pageInfo=new PageInfo<>();
+                pageInfo.setList(menuConverter.d2vs(menus));
+            }
+        }catch (Exception e){
+            throw new SQLException("查询异常");
+        }finally {
+            return pageInfo;
+        }
     }
 
     @Override
-    public int saveMenu(SaveMenuReqVO req) {
-        return 0;
+    public Long saveMenu(ReqMenuVO req) {
+        Long result=null;
+        try {
+            //新增
+            if (req.getId() == null) {
+                result = menuDao.insert(req);
+            }
+            //修改
+            else {
+                result = menuDao.update(req);
+            }
+        }catch (Exception e){
+            throw new SQLException("保存员工信息失败");
+        }finally {
+            return result;
+        }
     }
 
     @Override
-    public int deleteMenu(Long id) {
-        return 0;
+    public void deleteMenu(Long id) {
+        menuDao.delete(id);
+
     }
 
     @Override
     public List<Menu> queryRoleMenus(ReqRoleMenuVO req) {
-        return null;
+        List<Menu> menuList=new ArrayList<>();
+        for (Role role:req.getRoles()){
+            menuList.addAll(roleDao.queryMenusByRoleId(role.getId()));
+        }
+        return menuList;
     }
 }

@@ -1,20 +1,103 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.xhu.biz.dao.UserDao">
-    <insert id="insert"></insert>
-    <update id="update"></update>
-    <delete id="delete"></delete>
-    <select id="queryRolesByUserName" resultType="cn.xhu.core.pojo.Role"></select>
-    <select id="queryAllUsers" resultType="cn.xhu.core.pojo.User"></select>
+    <insert id="insert">
+        insert into user(user_name, password, real_name, sex, address, identify, user_tel, email)
+        values (#{userName},#{password},#{realName},#{sex},#{address},#{identify},#{userTel},#{email})
+    </insert>
+    <update id="update">
+        update user
+        <set>
+            <if test="userName!=null and userName!=''">
+              user_name=#{userName},
+            </if>
+            <if test="password!=null and password!=''">
+                password=#{password},
+            </if>
+            <if test="realName!=null and realName!=''">
+                realName=#{realName},
+            </if>
+            <if test="sex!=null">
+                sex=#{sex},
+            </if>
+            <if test="address!=null and address!=''">
+                address=#{address},
+            </if>
+            <if test="identify!=null and identify!=''">
+                identify=#{identify},
+            </if>
+            <if test="userTel!=null and userTel!=''">
+                user_tel=#{userTel},
+            </if>
+            <if test="email!=null and email!=''">
+                email=#{email},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <!--删除员工-->
+    <delete id="delete">
+        update user set is_delete=1 where id=#{id}
+    </delete>
+    <delete id="deleteUserRoleByUserId">
+        delete from user_role where user_id=#{id}
+    </delete>
+    <!--查询用户对应的角色-->
+    <select id="queryRolesByUserName" resultType="cn.xhu.core.pojo.Role">
+        select r.* from user u
+        join user_role ur
+        on u.user_name=#{userName} and u.id=ur.user_id
+        join role r
+        on ur.role_id=r.id
+    </select>
+    <!--列表查询-->
+    <select id="queryPageUsers" resultType="cn.xhu.core.pojo.User">
+        select * from user
+        <where>
+            1=1 and is_delete=0
+            <if test="userName!=null and userName!=''">
+                and user_name=#{userName}
+            </if>
+            <if test="realName!=null and realName!=''">
+                and real_name=#{realName}
+            </if>
+            <if test="userTel!=null and userTel!=''">
+                and user_tel=#{userTel}
+            </if>
+        </where>
+
+    </select>
+    <!--登录查询-->
     <select id="queryByCondition" resultType="cn.xhu.core.pojo.User" parameterType="cn.xhu.core.req.user.ReqUserVO">
-        select id,user_name from user
+        select * from user
         <where>
             1=1
             <if test="userName!='' and userName!=null">
                 and user_name=#{userName}
             </if>
+            <if test="password!='' and password!=null">
+                and password=#{password}
+            </if>
 
         </where>
     </select>
-    <select id="queryById" resultType="cn.xhu.core.pojo.User"></select>
+    <!--根据id查询，用户详情-->
+    <select id="queryById" resultType="cn.xhu.core.pojo.User">
+        select * from user where id=#{id}
+    </select>
+    <select id="queryAllUsers" resultType="java.lang.Integer">
+        select count(*) from user
+        <where>
+            1=1 and is_delete=0
+            <if test="userName!=null and userName!=''">
+                and user_name=#{userName}
+            </if>
+            <if test="realName!=null and realName!=''">
+                and real_name=#{realName}
+            </if>
+            <if test="userTel!=null and userTel!=''">
+                and user_tel=#{userTel}
+            </if>
+        </where>
+    </select>
 </mapper>

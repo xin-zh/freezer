@@ -2,6 +2,7 @@ package cn.xhu.biz.dao;
 
 import cn.xhu.core.pojo.Role;
 import cn.xhu.core.pojo.User;
+import cn.xhu.core.req.LoginRequestVO;
 import cn.xhu.core.req.user.ReqPageQueryUserVO;
 import cn.xhu.core.req.user.ReqUserVO;
 import org.apache.ibatis.annotations.Param;
@@ -15,17 +16,21 @@ import java.util.List;
  */
 public interface UserDao {
 
-    List<Role> queryRolesByUserName(String username);
+    List<Role> queryRolesByUserName(String userName);
 
-    void insert(ReqUserVO reqUser);
+    Long insert(ReqUserVO reqUser);
 
     void delete(Long id);
 
-    void update(ReqUserVO user);
+    void deleteUserRoleByUserId(Long id);
 
-    List<User> queryAllUsers(ReqPageQueryUserVO req);
+    Long update(ReqUserVO user);
 
-    User queryByCondition(ReqUserVO reqUser);
+    List<User> queryPageUsers(ReqPageQueryUserVO req);
+
+    Integer queryAllUsers(ReqPageQueryUserVO req);
+
+    User queryByCondition(LoginRequestVO reqUser);
 
     User queryById(Long id);
 

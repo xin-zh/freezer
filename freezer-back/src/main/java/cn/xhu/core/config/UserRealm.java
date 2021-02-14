@@ -9,6 +9,7 @@ import cn.xhu.common.utils.StringUtils;
 import cn.xhu.core.pojo.Menu;
 import cn.xhu.core.pojo.Role;
 import cn.xhu.core.pojo.User;
+import cn.xhu.core.req.LoginRequestVO;
 import cn.xhu.core.req.role.ReqRoleMenuVO;
 import cn.xhu.core.req.user.ReqUserRoleVO;
 import cn.xhu.core.req.user.ReqUserVO;
@@ -49,16 +50,16 @@ public class UserRealm extends AuthorizingRealm {
         if (StringUtils.isEmpty(username)){
             return authorizationInfo;
         }
-        ReqUserVO reqUserVO=new ReqUserVO();
-        reqUserVO.setUserName(username);
-        RespUserVO respUserVO = userService.queryUserByCondition(reqUserVO);
+        LoginRequestVO requestVO=new LoginRequestVO();
+        requestVO.setUserName(username);
+        RespUserVO respUserVO = userService.queryUserByCondition(requestVO);
         if(BeanUtils.isNotEmpty(respUserVO)) {
             authorizationInfo = new SimpleAuthorizationInfo();
             //注意这里的setRoles和setStringPermissions需要的都是一个Set<String>类型参数
             Set<String> role = new HashSet<String>();
             ReqUserRoleVO req = new ReqUserRoleVO();
             if(respUserVO.getId()!=0) {
-                req.setUserId(respUserVO.getId());
+                req.setUserName(respUserVO.getUserName());
                 List<Role> roles = null;
                 roles = roleService.queryRolesByUser(req);
                 if (CollectionUtils.isNotEmpty(roles)) {
@@ -69,7 +70,8 @@ public class UserRealm extends AuthorizingRealm {
                 authorizationInfo.setRoles(role);
                 Set<String> permission = new HashSet<String>();
                 ReqRoleMenuVO reqRoleMenuVO = new ReqRoleMenuVO();
-                reqRoleMenuVO.setRoles(roles.stream().map(p -> p.getRoleName()).collect(Collectors.toList()));
+                reqRoleMenuVO.setRoles(roles);
+//                reqRoleMenuVO.setRoles(roles.stream().map(p -> p.getRoleName()).collect(Collectors.toList()));
                 List<Menu> menus = menuService.queryRoleMenus(reqRoleMenuVO);
                 if(CollectionUtils.isNotEmpty(menus)) {
                     for (Menu p : menus) {
@@ -91,9 +93,9 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 
         String username = (String) token.getPrincipal();
-        ReqUserVO reqUserVO=new ReqUserVO();
-        reqUserVO.setUserName(username);
-        RespUserVO respUserVO = userService.queryUserByCondition(reqUserVO);
+        LoginRequestVO requestVO=new LoginRequestVO();
+        requestVO.setUserName(username);
+        RespUserVO respUserVO = userService.queryUserByCondition(requestVO);
         if (BeanUtils.isEmpty(respUserVO)){
             throw new UnknownAccountException(); //没有找到账号
         }

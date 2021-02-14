@@ -20,18 +20,13 @@ import java.util.List;
 
 public interface MenuService {
     /**
-     * 根据id获取用户权限
+     * 根据id获取对应的权限
      * @param id
      * @return
      * @
      */
-    List<RespMenuVO> getPermissionByUser(Long id) ;
-    /**
-     * 根据条件查询菜单
-     * @param req
-     * @return
-     */
-    RespRoleVO queryMenuByExample(ReqMenuVO req) ;
+    RespMenuVO queryById(Long id);
+
     /**
      * 分页查询
      * @param req
@@ -46,7 +41,7 @@ public interface MenuService {
      * @return
      * @
      */
-    int saveMenu(SaveMenuReqVO req) ;
+    Long saveMenu(ReqMenuVO req) ;
 
     /**
      * 删除菜单信息
@@ -54,8 +49,13 @@ public interface MenuService {
      * @return
      * @
      */
-    int deleteMenu(Long id) ;
+    void deleteMenu(Long id) ;
 
+    /**
+     * 查询角色对应的权限关联信息
+     * @param req
+     * @return
+     */
     List<Menu> queryRoleMenus(ReqRoleMenuVO req);
 
 }

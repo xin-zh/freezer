@@ -1,5 +1,7 @@
 package cn.xhu.core.req.role;
 
+import cn.xhu.core.pojo.Role;
+
 import java.util.List;
 
 /**
@@ -10,13 +12,13 @@ import java.util.List;
 
 
 public class ReqRoleMenuVO {
-    private List<String> roles;
+    private List<Role> roles;
 
-    public List<String> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<String> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 }

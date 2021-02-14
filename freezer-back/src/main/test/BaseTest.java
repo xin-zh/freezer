@@ -1,11 +1,11 @@
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
-import javax.xml.crypto.Data;
 import java.sql.SQLException;
 
 /**
@@ -25,5 +25,11 @@ public class BaseTest {
         System.out.println(dataSource);
         System.out.println(dataSource.getConnection());
     }
+
+//    @Test
+//    public  void test2(){
+//        ClassPathXmlApplicationContext ac=new ClassPathXmlApplicationContext("ehcache.xml");
+//        System.out.println(ac);
+//    }
 
 }

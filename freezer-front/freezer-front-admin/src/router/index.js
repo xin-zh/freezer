@@ -10,6 +10,15 @@ export default new Router({
       path: '/',
       name: 'HelloWorld',
       component: HelloWorld
+    }, {
+      path: 'list',
+      name: 'list',
+      component: require('@/views/Register')
+
+    }, {
+      path: 'test',
+      name: 'test',
+      component: require('@/views/test')
     }
   ]
 })

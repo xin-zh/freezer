@@ -27,7 +27,7 @@ public class Menu {
   /**
    * 类型：0目录 1菜单 2按钮
    */
-  private long type;
+  private long menuType;
   /**
    * 排序
    */
@@ -106,15 +106,13 @@ public class Menu {
     this.perms = perms;
   }
 
-
-  public long getType() {
-    return type;
+  public long getMenuType() {
+    return menuType;
   }
 
-  public void setType(long type) {
-    this.type = type;
+  public void setMenuType(long menuType) {
+    this.menuType = menuType;
   }
-
 
   public long getOrderNum() {
     return orderNum;

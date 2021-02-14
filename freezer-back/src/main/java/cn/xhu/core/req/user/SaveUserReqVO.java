@@ -8,4 +8,10 @@ package cn.xhu.core.req.user;
 
 
 public class SaveUserReqVO {
+    private Long id;
+    private String userName;
+    private String realName;
+    private String password;
+    private String address;
+
 }

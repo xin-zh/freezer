@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xhu.biz.dao.RoleDao">
+    <insert id="insert">
+        insert into role(role_name, operator)
+        values (#{roleName},#{operator})
+    </insert>
+
+    <update id="update">
+        update role
+        <set>
+            <if test="roleName!='' and roleName!=null">
+              role_name=#{roleName},
+            </if>
+            <if test="operator!='' and operator!=null">
+                operator=#{operator},
+            </if>
+            <if test="isDelete!=null">
+              is_delete=#{isDelete},
+            </if>
+            update_time=now()
+        </set>
+    </update>
+    <!--删除角色信息-->
+    <delete id="delete">
+        update role set is_delete=1 where id=#{id}
+    </delete>
+    <!--删除角色菜单关联表中的信息-->
+    <delete id="deleteRoleMenuByRoleId">
+        delete from role_menu where role_id=#{id}
+    </delete>
+
+    <select id="queryMenusByRoleId" resultType="cn.xhu.core.pojo.Menu">
+        select * from menu m
+        join role_menu rm
+        on m.id=rm.menu_id
+        join role r
+        on rm.role_id=r.id and r.id=#{id}
+    </select>
+    <select id="queryPageRoles" resultType="cn.xhu.core.pojo.Role">
+        select * from role
+        <where>
+            1=1 and is_delete=0
+            <if test="roleName!=null and roleName!=''">
+                role_name=#{roleName}
+            </if>
+        </where>
+         order by create_time asc
+    </select>
+    <select id="queryById" resultType="cn.xhu.core.pojo.Role">
+        select * from role where id=#{id}
+    </select>
+    <select id="queryAllRoles" resultType="java.lang.Integer">
+        select count(*) from role
+        <where>
+            1=1 and is_delete=0
+            <if test="roleName!=null and roleName!=''">
+                role_name=#{roleName}
+            </if>
+        </where>
+    </select>
+</mapper>

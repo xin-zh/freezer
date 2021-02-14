@@ -20,14 +20,6 @@ import java.util.List;
 
 public interface RoleService {
     /**
-     * 根据条件查询角色
-     * @param req
-     * @return
-     */
-    RespRoleVO queryRoleByExample(ReqRoleVO req) ;
-
-
-    /**
      * 分页查询
      * @param req
      * @return
@@ -41,7 +33,7 @@ public interface RoleService {
      * @return
      * @
      */
-    int saveRole(SaveRoleReqVO req) ;
+    Long saveRole(ReqRoleVO req) ;
 
     /**
      * 删除角色信息
@@ -49,7 +41,7 @@ public interface RoleService {
      * @return
      * @
      */
-    int deleteRole(Long id) ;
+    void deleteRole(Long id) ;
 
     /**
      * 删除与角色相关的所有菜单权限信息
@@ -57,7 +49,7 @@ public interface RoleService {
      * @return
      * @
      */
-    int deleteAllRoleMenus(Long id) ;
+    void deleteAllRoleMenus(Long id) ;
 
     List<Role> queryRolesByUser(ReqUserRoleVO req) ;
 
