@@ -1,17 +1,13 @@
 package cn.xhu.converter.impl;
 
 import cn.xhu.converter.UserConverter;
-import cn.xhu.core.pojo.Menu;
 import cn.xhu.core.pojo.User;
 import cn.xhu.core.req.user.ReqUserVO;
-import cn.xhu.core.resp.RespMenuVO;
-import cn.xhu.core.resp.RespRoleVO;
 import cn.xhu.core.resp.RespUserVO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author:zx
