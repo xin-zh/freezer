@@ -1,12 +1,7 @@
 package cn.xhu.converter.impl;
 
-import cn.xhu.core.resp.RespMenuVO;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *@author:zx

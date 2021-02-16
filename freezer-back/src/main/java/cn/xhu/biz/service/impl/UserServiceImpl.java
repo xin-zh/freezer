@@ -113,4 +113,17 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
+    @Override
+    public void saveUserRoleInfo(Long userId, List<Long> roleIds) throws SQLException {
+        try {
+            roleIds.stream().forEach(t -> userDao.insertUserRoleInfo(userId, t));
+        }catch (Exception e){
+            throw new SQLException("添加用户角色信息失败");
+        }
+    }
+
+    @Override public User queryById(Long id) {
+        return userDao.queryById(id);
+    }
 }

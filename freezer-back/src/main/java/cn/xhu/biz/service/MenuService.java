@@ -58,4 +58,5 @@ public interface MenuService {
      */
     List<Menu> queryRoleMenus(ReqRoleMenuVO req);
 
+    void deleteRoleMenuByMenuId(Long menuId);
 }

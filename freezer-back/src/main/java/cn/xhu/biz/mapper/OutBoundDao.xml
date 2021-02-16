@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xhu.biz.dao.OutBoundDao">
+    <insert id="insert">
+        insert into outbound(outbound_no, customer_name,customer_tel,status, is_mail, operator)
+        values (#{outboundNo},#{customerName},#{customerTel},#{status},#{isMail},#{operator})
+    </insert>
+    <update id="update">
+        update outbound
+        <set>
+            <if test="customerName!=null and customerName!=''">
+              customer_name=#{customerName},
+            </if>
+            <if test="customerTel!=null and customerTel!=''">
+                customer_tel=#{customerTel},
+            </if>
+            <if test="status!=null and status!=''">
+                status=#{status},
+            </if>
+            <if test="isMail!=null and isMail!=''">
+                is_mail=#{isMail},
+            </if>
+            <if test="operator!=null and operator!=''">
+                operator=#{operator},
+            </if>
+            update_time=now()
+        </set>
+    </update>
+    <select id="queryPageOutbound" resultType="cn.xhu.core.pojo.Outbound">
+        select * from outbound
+        <where>
+            1=1
+            <if test="customerName!=null and customerName!=''">
+                and customer_name=#{customerName}
+            </if>
+            <if test="customerTel!=null and customerTel!=''">
+                and customer_tel=#{customerTel}
+            </if>
+            <if test="status!=null">
+                and status=#{status}
+            </if>
+        </where>
+    </select>
+    <select id="queryById" resultType="cn.xhu.core.pojo.Outbound">
+        select * from outbound where id=#{id}
+    </select>
+</mapper>

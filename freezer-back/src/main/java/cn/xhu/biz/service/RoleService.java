@@ -8,6 +8,7 @@ import cn.xhu.core.req.user.ReqUserRoleVO;
 import cn.xhu.core.resp.RespRoleVO;
 import com.github.pagehelper.PageInfo;
 
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -51,6 +52,10 @@ public interface RoleService {
      */
     void deleteAllRoleMenus(Long id) ;
 
+    void saveRoleMenuInfo(Long roleId,List<Long> menuIds) throws SQLException;
+
     List<Role> queryRolesByUser(ReqUserRoleVO req) ;
+
+    Role queryById(Long id);
 
 }

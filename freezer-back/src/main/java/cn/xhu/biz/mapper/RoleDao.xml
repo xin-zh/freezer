@@ -5,6 +5,9 @@
         insert into role(role_name, operator)
         values (#{roleName},#{operator})
     </insert>
+    <insert id="insertRoleMenuInfo">
+        insert into role_menu(role_id, menu_id) values (#{roleId},#{menuId})
+    </insert>
 
     <update id="update">
         update role

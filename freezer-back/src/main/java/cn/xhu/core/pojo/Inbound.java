@@ -19,6 +19,10 @@ public class Inbound {
    */
   private String customerName;
   /**
+   * 用户联系方式
+   */
+  private String customerTel;
+  /**
    * 处理人员（员工姓名userName）
    */
   private String operator;
@@ -70,6 +74,13 @@ public class Inbound {
     this.customerName = customerName;
   }
 
+  public String getCustomerTel() {
+    return customerTel;
+  }
+
+  public void setCustomerTel(String customerTel) {
+    this.customerTel = customerTel;
+  }
 
   public String getOperator() {
     return operator;

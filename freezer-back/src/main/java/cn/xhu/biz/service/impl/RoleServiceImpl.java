@@ -79,8 +79,23 @@ public class RoleServiceImpl implements RoleService {
         roleDao.deleteRoleMenuByRoleId(id);
     }
 
+    @Override public void saveRoleMenuInfo(Long roleId, List<Long> menuIds) throws SQLException {
+        try {
+            menuIds.stream().forEach(t -> roleDao.insertRoleMenuInfo(roleId, t));
+        }catch (Exception e){
+            throw new SQLException("添加角色权限信息失败");
+        }
+    }
+
     @Override
     public List<Role> queryRolesByUser(ReqUserRoleVO req) {
         return userDao.queryRolesByUserName(req.getUserName());
+    }
+
+
+
+    @Override
+    public Role queryById(Long id) {
+        return roleDao.queryById(id);
     }
 }

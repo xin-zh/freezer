@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xhu.biz.dao.InboundDao">
+    <insert id="insert">
+        insert into inbound(inbound_no, customer_name, operator, status, actual_pay, should_pay)
+        values (#{inboundNo},#{customerName},#{operator},#{status},#{actualPay},#{shouldPay})
+    </insert>
+    <update id="update">
+        update inbound
+        <set>
+            <if test="customerName!=null and customerName!=''">
+                customer_name=#{customerName},
+            </if>
+            <if test="operator!=null and operator!=''">
+                operator=#{operator},
+            </if>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+            <if test="actualPay!=null">
+                actual_pay+=#{actualPay},
+            </if>
+            update_time=now()
+        </set>
+    </update>
+    <delete id="delete">
+        update inbound set is_delete=1 where id=#{id}
+    </delete>
+    <select id="queryPageInbound" resultType="cn.xhu.core.pojo.Inbound">
+        select * from inbound
+        <where>
+            1=1 and is_delete=0
+            <if test="customerName!=null and customerName!=''">
+                and customer_name=#{customerName}
+            </if>
+            <if test="customerTel!=null and customerTel!=''">
+                and customer_tel=#{customerTel}
+            </if>
+            <if test="status!=null">
+                and status=#{status}
+            </if>
+        </where>
+        order by create_time asc
+    </select>
+    <select id="queryById" resultType="cn.xhu.core.pojo.Inbound">
+        select * from inbound where id=#{id}
+    </select>
+</mapper>

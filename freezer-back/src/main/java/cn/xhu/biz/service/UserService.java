@@ -10,6 +10,7 @@ import cn.xhu.core.resp.RespUserVO;
 import com.github.pagehelper.PageInfo;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @author:zx
@@ -60,6 +61,14 @@ public interface UserService  {
      * @param id
      */
     void deleteAllUserRoles(Long id) throws SQLException;
+    /**
+     * 保存用户-角色关联关系
+     * @param userId
+     * @param roleIds
+     */
+    void saveUserRoleInfo(Long userId, List<Long> roleIds) throws SQLException;
+
+    User queryById(Long id);
 
     /**
      * 登录请求查询

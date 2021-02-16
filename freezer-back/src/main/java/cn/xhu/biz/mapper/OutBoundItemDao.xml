@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xhu.biz.dao.OutBoundItemDao">
+    <insert id="insert">
+        insert into outbound_item_info(outbound_no, item_name, outbound_num)
+        values (#{outboundNo},#{itemName},#{outboundNum})
+    </insert>
+    <update id="update">
+        update outbound_item_info
+        <set>
+            <if test="itemName!=null and itemName@=''">
+                item_name=#{itemName},
+            </if>
+            <if test="outboundNum!=null and outboundNum@=''">
+                outbound_num=#{outboundNum},
+            </if>
+            update_time=now()
+        </set>
+    </update>
+    <select id="queryAllItems" resultType="cn.xhu.core.pojo.OutboundItemInfo">
+        select * from outbound_item_info where outbound_no=#{outboundNo}
+    </select>
+</mapper>

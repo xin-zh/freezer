@@ -35,4 +35,6 @@ public interface RoleDao {
 
     Role queryById(@Param("id") Long id);
 
+    void insertRoleMenuInfo(@Param("roleId") Long roleId,@Param("menuId") Long menuId);
+
 }

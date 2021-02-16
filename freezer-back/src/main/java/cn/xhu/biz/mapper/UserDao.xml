@@ -5,6 +5,9 @@
         insert into user(user_name, password, real_name, sex, address, identify, user_tel, email)
         values (#{userName},#{password},#{realName},#{sex},#{address},#{identify},#{userTel},#{email})
     </insert>
+    <insert id="insertUserRoleInfo">
+        insert into user_role(user_id, role_id) values (#{userId},#{roleId})
+    </insert>
     <update id="update">
         update user
         <set>

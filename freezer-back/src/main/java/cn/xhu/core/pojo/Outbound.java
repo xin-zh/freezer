@@ -18,6 +18,11 @@ public class Outbound {
    * 用户序列号
    */
   private String customerName;
+
+  /**
+   * 用户联系方式
+   */
+  private String customerTel;
   /**
    * 出库状态：0已预约 1已受理 2已出库
    */
@@ -66,6 +71,13 @@ public class Outbound {
     this.customerName = customerName;
   }
 
+  public String getCustomerTel() {
+    return customerTel;
+  }
+
+  public void setCustomerTel(String customerTel) {
+    this.customerTel = customerTel;
+  }
 
   public long getStatus() {
     return status;

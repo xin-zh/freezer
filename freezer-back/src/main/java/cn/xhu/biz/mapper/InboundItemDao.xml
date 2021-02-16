@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xhu.biz.dao.InboundItemDao">
+    <insert id="insert">
+        insert into inbound_item_info(inbound_no, item_name, inbound_num, inventory)
+        values (#{inboundNo},#{itemName},#{inboundNum},#{invertory})
+    </insert>
+    <update id="update">
+        update inbound_item_info
+        <set>
+            <if test="inboundNum!=null">
+                inbound_num+=#{inboundNum},
+            </if>
+            inventory+=#{inventory},update_time=now()
+        </set>
+    </update>
+    <select id="queryAllItems" resultType="cn.xhu.core.pojo.InboundItemInfo">
+        select * from inbound_item_info where inbound_no=#{inboundNo}
+    </select>
+</mapper>

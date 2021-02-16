@@ -57,6 +57,7 @@ public class ResponseDTO {
     public static ResponseDTO createSuccessResponse(Object data) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setSuccess(true);
+        responseDTO.setMessage("成功");
         responseDTO.setData(data);
         return responseDTO;
     }

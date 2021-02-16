@@ -44,6 +44,9 @@
     <delete id="delete">
         update menu set is_delete=1 where id=#{id}
     </delete>
+    <delete id="deleRoleMenuByMenuId">
+        delete from role_menu where menu_id=#{menuId}
+    </delete>
     <select id="queryPageMenus" resultType="cn.xhu.core.pojo.Menu">
         select * from menu
         <where>

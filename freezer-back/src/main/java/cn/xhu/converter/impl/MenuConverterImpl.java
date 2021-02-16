@@ -1,16 +1,13 @@
 package cn.xhu.converter.impl;
 
-import cn.xhu.common.utils.StringUtils;
 import cn.xhu.converter.MenuConverter;
 import cn.xhu.core.pojo.Menu;
 import cn.xhu.core.req.menu.ReqMenuVO;
 import cn.xhu.core.resp.RespMenuVO;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *@author:zx

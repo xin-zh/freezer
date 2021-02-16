@@ -92,4 +92,8 @@ public class MenuServiceImpl implements MenuService {
         }
         return menuList;
     }
+
+    @Override public void deleteRoleMenuByMenuId(Long menuId) {
+        menuDao.deleRoleMenuByMenuId(menuId);
+    }
 }

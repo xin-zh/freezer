@@ -26,4 +26,6 @@ public interface MenuDao {
     List<Menu> queryPageMenus(ReqPageQueryMenuVO req);
 
     Menu queryById(@Param("id") Long id);
+
+    void deleRoleMenuByMenuId(@Param("menuId") Long menuId);
 }
