@@ -17,8 +17,9 @@ public class SaveInboundReqVO {
     private     String                customerName;
     private     Double                actualPay;
     private     Double                shouldPay;
+    private String extInfo;
     //入库单的子项
-        private List<InboundItemInfo> items;
+    private List<InboundItemInfo> items;
 
     public Long getId() {
         return id;
@@ -66,5 +67,13 @@ public class SaveInboundReqVO {
 
     public void setItems(List<InboundItemInfo> items) {
         this.items = items;
+    }
+
+    public String getExtInfo() {
+        return extInfo;
+    }
+
+    public void setExtInfo(String extInfo) {
+        this.extInfo = extInfo;
     }
 }

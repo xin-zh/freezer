@@ -47,6 +47,11 @@ public class Inbound {
    */
   private Date updateTime;
 
+  /**
+   * 扩展信息
+   */
+  private String extInfo;
+
 
   public long getId() {
     return id;
@@ -135,4 +140,11 @@ public class Inbound {
     this.updateTime = updateTime;
   }
 
+  public String getExtInfo() {
+    return extInfo;
+  }
+
+  public void setExtInfo(String extInfo) {
+    this.extInfo = extInfo;
+  }
 }

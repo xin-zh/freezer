@@ -23,6 +23,11 @@
             update_time=now()
         </set>
     </update>
+    <update id="updateStatus">
+        update inbound
+        set status=#{status}
+        where id=#{inboundId}
+    </update>
     <delete id="delete">
         update inbound set is_delete=1 where id=#{id}
     </delete>

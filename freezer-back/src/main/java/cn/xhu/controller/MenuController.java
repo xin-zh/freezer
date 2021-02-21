@@ -60,13 +60,14 @@ public class MenuController {
         }
     }
 
-    public ResponseDTO deleteByMenuId(@RequestParam("id") Long menuId){
+    @RequestMapping(value = "changeStatus",method = RequestMethod.GET)
+    public ResponseDTO changeStatus(@RequestParam("id") Long menuId){
         try {
             menuService.deleteMenu(menuId);
             menuService.deleteRoleMenuByMenuId(menuId);
             return ResponseDTO.createSuccessResponse();
         }catch (Exception e){
-            return ResponseDTO.createFailResponse("删除失败");
+            return ResponseDTO.createFailResponse("操作失败");
         }
     }
 }

@@ -4,6 +4,7 @@ import cn.xhu.core.req.inbound.ReqPageQueryInboundVO;
 import cn.xhu.core.req.inbound.SaveInboundReqVO;
 import cn.xhu.core.resp.RespInboundVO;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -24,4 +25,8 @@ public interface InboundService {
     List<RespInboundVO> queryPageInbounds(ReqPageQueryInboundVO query);
 
     RespInboundVO queryById(Long inboundId);
+
+    Long changeStatus(Long inboundId,Integer status);
+
+    boolean handleInbound(Long inboundId) throws SQLException;
 }

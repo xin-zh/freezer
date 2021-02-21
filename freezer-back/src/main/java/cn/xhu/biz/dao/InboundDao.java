@@ -24,4 +24,6 @@ public interface InboundDao {
     Inbound queryById(@Param("id") Long id);
 
     void delete(Long id);
+
+    Long updateStatus(@Param("inboundId") Long inboundId, @Param("status") Integer status);
 }

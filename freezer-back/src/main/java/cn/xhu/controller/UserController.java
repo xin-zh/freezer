@@ -5,9 +5,11 @@ import cn.xhu.biz.service.UserService;
 import cn.xhu.common.utils.BeanUtils;
 import cn.xhu.core.dto.ResponseDTO;
 import cn.xhu.core.pojo.User;
+import cn.xhu.core.req.role.ReqPageQueryRoleVO;
 import cn.xhu.core.req.user.ReqPageQueryUserVO;
 import cn.xhu.core.req.user.ReqUserVO;
 import cn.xhu.core.req.user.SaveUserReqVO;
+import cn.xhu.core.resp.RespRoleVO;
 import cn.xhu.core.resp.RespUserVO;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,8 @@ import javax.annotation.Resource;
 public class UserController {
     @Resource
     private UserService userService;
+    @Resource
+    private RoleService roleService;
 
     @ResponseBody
     @RequestMapping(value = "list",method = RequestMethod.POST)
@@ -79,6 +83,12 @@ public class UserController {
             e.printStackTrace();
             return ResponseDTO.createFailResponse("删除用户失败");
         }
-
+    }
+    @ResponseBody
+    @RequestMapping(value = "initRole",method = RequestMethod.GET)
+    public ResponseDTO initRole(){
+        ReqPageQueryRoleVO query=new ReqPageQueryRoleVO();
+        PageInfo<RespRoleVO> pageInfo = roleService.queryPageRoles(query);
+        return ResponseDTO.createSuccessResponse(pageInfo.getList());
     }
 }

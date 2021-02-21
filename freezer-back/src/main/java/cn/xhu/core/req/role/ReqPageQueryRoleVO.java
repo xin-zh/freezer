@@ -8,4 +8,13 @@ package cn.xhu.core.req.role;
 
 
 public class ReqPageQueryRoleVO {
+    private String roleName;
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
 }

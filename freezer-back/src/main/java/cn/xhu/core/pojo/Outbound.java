@@ -2,9 +2,6 @@ package cn.xhu.core.pojo;
 
 import java.sql.Date;
 
-/**
- * 出库信息
- */
 public class Outbound {
   /**
    * 主键ID
@@ -27,10 +24,11 @@ public class Outbound {
    * 出库状态：0已预约 1已受理 2已出库
    */
   private long status;
+
   /**
    * 是否邮寄：0否 1是
    */
-  private long isMail;
+  private long   isMail;
   /**
    * 处理人员（员工userName）
    */
@@ -38,11 +36,15 @@ public class Outbound {
   /***
    * 出库时间
    */
-  private Date createTime;
+  private Date   createTime;
   /**
    * 更新时间
    */
-  private Date updateTime;
+  private Date   updateTime;
+  /**
+   * 扩展信息
+   */
+  private String extInfo;
 
 
   public long getId() {
@@ -71,6 +73,7 @@ public class Outbound {
     this.customerName = customerName;
   }
 
+
   public String getCustomerTel() {
     return customerTel;
   }
@@ -79,12 +82,22 @@ public class Outbound {
     this.customerTel = customerTel;
   }
 
+
   public long getStatus() {
     return status;
   }
 
   public void setStatus(long status) {
     this.status = status;
+  }
+
+
+  public String getExtInfo() {
+    return extInfo;
+  }
+
+  public void setExtInfo(String extInfo) {
+    this.extInfo = extInfo;
   }
 
 

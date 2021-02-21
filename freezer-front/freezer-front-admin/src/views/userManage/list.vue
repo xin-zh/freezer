@@ -8,10 +8,8 @@
             <el-form-item label="员工姓名">
                 <el-input placeholder="请输入" v-model="formQuery.realName"></el-input>
             </el-form-item>
-            <el-form-item label="角色">
-                <el-select filterable placeholder="请选择" v-model="formQuery.roleId" clearable>
-                    <el-option v-for="item in roleOptions" :key="item.id" :label="item.text" :value="item.id"></el-option>
-                </el-select>
+            <el-form-item label="联系方式">
+                <el-input placeholder="请输入" v-model="formQuery.userTel"></el-input>
             </el-form-item>
         </el-form>
         <div class="tc mt-10">
@@ -55,108 +53,103 @@
 </template>
 
 <script>
-import {roleOptions} from "../options";
-import userForm from "./form";
+import userForm from './form'
 export default {
-    name:"user-list",
-    components:{
-        "user-form": userForm
-    },
-    data() {
-        return {
-            paginator: {
-                pageNumber: 1,
-                pageSize: 10,
-                totalCount: 0,
-                pageSizes: [10, 20, 50]
-            },
-            formQuery: {
-                userName: "",
-                realName:"",
-                roleId: "",
-            },
-            tableData: [],
-            roleOptions: roleOptions,
-        };
-    },
-    mounted() {
-        this.onQueryPage();
-    },
-    methods: {
-        //新增
-        onAdd(data){
-            this.$refs.userForm.add(data);
-        },
-        //编辑
-        onEdit(data){
-            this.$refs.userForm.edit(data);
-        },
-        onDelete(data) {
-            this.$confirm('此操作将删除员工信息, 是否继续?', '提示', {
-                type: "warning"
-            }).then(() => {
-                this.deleteUser(data);
-                console.log("删除成功")
-            }).catch(() => {
-                this.$message({ 
-                    type: 'info',
-                    message: '已取消删除'
-                });
-            });
-        },
-        getRoleText(roleId) {
-            var name = "";
-            this.roleOptions.forEach(function (data) {
-                if (roleId == data.id) {
-                    name = data.text;
-                    return false;
-                }
-            });
-            return name;
-        },
-        pageSizeChanged(val) {
-            this.paginator.pageSize = val;
-            this.paginator.pageNumber = 1;
-            this.onQueryPage();
-        },
-        pageClick(val) {
-            this.paginator.pageNumber = val;
-            this.onQueryPage();
-        },
-        async onQueryPage() {
-            this.$spinner();
-            try {
-                
-                let result = await this.axios.post("/user/pageList", {
-                    userName: this.formQuery.userName,
-                    realName:this.formQuery.realName,
-                    roleId: this.formQuery.roleId,
-                    page: this.paginator.pageNumber,
-                    pageSize: this.paginator.pageSize
-                });
-                if (result && result.data.data && result.data.success) {
-                    this.tableData = result.data.data.userList;
-                    this.paginator.totalCount = result.data.data.pager.totalCount;
-                }
-            } catch (err) {
-                this.$message.error("获取员工列表信息异常");
-            } finally {
-                this.$stopSpinner();
-            }
-        },
-        async deleteUser(data) {
-            let result = await this.axios.get("/user/deleteUser", {
-                params: {
-                    id: data.id
-                }
-            });
-            if (result && result.data && result.data.success) {
-                this.onQueryPage();
-            }
-        }
-
-
-
+  name: 'user-list',
+  components: {
+    'user-form': userForm
+  },
+  data () {
+    return {
+      paginator: {
+        pageNumber: 1,
+        pageSize: 10,
+        totalCount: 0,
+        pageSizes: [10, 20, 50]
+      },
+      formQuery: {
+        userName: '',
+        realName: '',
+        userTel: ''
+      },
+      tableData: [],
     }
-};
+  },
+  mounted () {
+    this.onQueryPage()
+  },
+  methods: {
+    // 新增
+    onAdd (data) {
+      this.$refs.userForm.add(data)
+    },
+    // 编辑
+    onEdit (data) {
+      this.$refs.userForm.edit(data)
+    },
+    onDelete (data) {
+      this.$confirm('此操作将删除员工信息, 是否继续?', '提示', {
+        type: 'warning'
+      }).then(() => {
+        this.deleteUser(data)
+        console.log('删除成功')
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    getRoleText (roleId) {
+      var name = ''
+      this.roleOptions.forEach(function (data) {
+        if (roleId == data.id) {
+          name = data.roleName
+          return false
+        }
+      })
+      return name
+    },
+    pageSizeChanged (val) {
+      this.paginator.pageSize = val
+      this.paginator.pageNumber = 1
+      this.onQueryPage()
+    },
+    pageClick (val) {
+      this.paginator.pageNumber = val
+      this.onQueryPage()
+    },
+    async onQueryPage () {
+      this.$spinner()
+      try {
+        let result = await this.axios.post('/user/pageList', {
+          userName: this.formQuery.userName,
+          realName: this.formQuery.realName,
+          userTel: this.formQuery.userTel,
+          page: this.paginator.pageNumber,
+          pageSize: this.paginator.pageSize
+        })
+        if (result && result.data.data && result.data.success) {
+          this.tableData = result.data.data.userList
+          this.paginator.totalCount = result.data.data.pager.totalCount
+        }
+      } catch (err) {
+        this.$message.error('获取员工列表信息异常')
+      } finally {
+        this.$stopSpinner()
+      }
+    },
+    async deleteUser (data) {
+      let result = await this.axios.get('/user/deleteUser', {
+        params: {
+          id: data.id
+        }
+      })
+      if (result && result.data && result.data.success) {
+        this.onQueryPage()
+      }
+    }
+
+  }
+}
 </script>

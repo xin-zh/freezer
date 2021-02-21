@@ -6,6 +6,7 @@ import cn.xhu.biz.dao.UserDao;
 import cn.xhu.biz.service.RoleService;
 import cn.xhu.common.utils.CollectionUtils;
 import cn.xhu.converter.RoleConverter;
+import cn.xhu.core.pojo.Menu;
 import cn.xhu.core.pojo.Role;
 import cn.xhu.core.req.role.ReqPageQueryRoleVO;
 import cn.xhu.core.req.role.ReqRoleVO;
@@ -32,6 +33,8 @@ public class RoleServiceImpl implements RoleService {
     @Resource
     private UserDao userDao;
     @Resource
+    private MenuDao menuDao;
+    @Resource
     private RoleConverter roleConverter;
 
     @Override
@@ -39,9 +42,14 @@ public class RoleServiceImpl implements RoleService {
         PageInfo<RespRoleVO> pageInfo = null;
         try {
             List<Role> roles = roleDao.queryPageRoles(req);
+            List<RespRoleVO> respRoleVOS = roleConverter.d2vs(roles);
             if (CollectionUtils.isNotEmpty(roles)) {
+                respRoleVOS.stream().forEach(t->{
+                    List<Menu> menus = roleDao.queryMenusByRoleId(t.getId());
+                    t.setMenuList(menus);
+                });
                 pageInfo = new PageInfo<>();
-                pageInfo.setList(roleConverter.d2vs(roles));
+                pageInfo.setList(respRoleVOS);
             }
         } catch (Exception e) {
             throw new SQLException("查询出错");
@@ -95,7 +103,10 @@ public class RoleServiceImpl implements RoleService {
 
 
     @Override
-    public Role queryById(Long id) {
-        return roleDao.queryById(id);
+    public RespRoleVO queryById(Long id) {
+        RespRoleVO respRoleVO = roleConverter.d2v(roleDao.queryById(id));
+        List<Menu> menus = roleDao.queryMenusByRoleId(id);
+        respRoleVO.setMenuList(menus);
+        return respRoleVO;
     }
 }

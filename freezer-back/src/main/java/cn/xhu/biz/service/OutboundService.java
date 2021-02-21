@@ -7,6 +7,7 @@ import cn.xhu.core.req.outbound.SaveOutBoundReqVO;
 import cn.xhu.core.resp.RespInboundVO;
 import cn.xhu.core.resp.RespOutboundVO;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -27,4 +28,8 @@ public interface OutboundService {
     List<RespOutboundVO> queryPageOutbounds(ReqPageQueryOutboundVO query);
 
     RespOutboundVO queryById(Long outboundId);
+
+    Long changeStatus(Long id,Integer status);
+
+    boolean handleOutbound(Long outboundId) throws SQLException;
 }

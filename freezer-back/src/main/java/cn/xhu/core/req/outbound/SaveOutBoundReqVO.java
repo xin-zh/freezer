@@ -18,6 +18,8 @@ public class SaveOutBoundReqVO {
     private Integer status;
     private Integer isMail;
     private String operator;
+    //扩展信息
+    private String extInfo;
     private List<OutboundItemInfo> items;
 
     public Long getId() {
@@ -74,5 +76,13 @@ public class SaveOutBoundReqVO {
 
     public void setItems(List<OutboundItemInfo> items) {
         this.items = items;
+    }
+
+    public String getExtInfo() {
+        return extInfo;
+    }
+
+    public void setExtInfo(String extInfo) {
+        this.extInfo = extInfo;
     }
 }

@@ -12,6 +12,8 @@ import cn.xhu.core.req.outbound.ReqOutboundVO;
 import cn.xhu.core.req.outbound.ReqPageQueryOutboundVO;
 import cn.xhu.core.req.outbound.SaveOutBoundReqVO;
 import cn.xhu.core.resp.RespOutboundVO;
+import cn.xhu.enums.OutBoundStatusEnum;
+import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -41,26 +43,11 @@ public class OutboundServiceImpl implements OutboundService {
         ReqOutboundVO reqOutboundVO=new ReqOutboundVO();
         BeanUtils.copyProperties(request,reqOutboundVO);
         Long outboundId=null;
-        //新增
+        //新增预约
         if (request.getId()==null){
             outboundId = outBoundDao.insert(reqOutboundVO);
-            if (CollectionUtils.isNotEmpty(request.getItems())){
-                request.getItems().stream().forEach(t->outBoundItemDao.insert(t));
-            }
-        }
-        else {
+        }else{
             outboundId=outBoundDao.update(reqOutboundVO);
-            List<OutboundItemInfo> items = outBoundItemDao.queryAllItems(request.getOutboundNo());
-            if (CollectionUtils.isNotEmpty(items)){
-                List<String> itemNames = items.stream().map(t -> t.getItemName()).collect(Collectors.toList());
-                for (OutboundItemInfo item : request.getItems()){
-                    if (itemNames.contains(item.getItemName())){
-                        outBoundItemDao.update(item);
-                    }else{
-                        outBoundItemDao.insert(item);
-                    }
-                }
-            }
         }
         return outboundId;
     }
@@ -95,5 +82,36 @@ public class OutboundServiceImpl implements OutboundService {
             return respOutboundVO;
         }
 
+    }
+
+
+    @Override
+    public Long changeStatus(Long id, Integer status) {
+        return outBoundDao.updateStatus(id, status);
+    }
+
+    /**
+     * 处理出库，前台确认出库后，将出库子项数据插入数据表中
+     * @param outboundId
+     * @return
+     */
+    @Override
+    public boolean handleOutbound(Long outboundId) throws SQLException {
+        boolean result=false;
+        try{
+            Outbound outbound = outBoundDao.queryById(outboundId);
+            //将扩展信息中的数据转为outboundItem对象并保存到数据库
+            List<OutboundItemInfo> items = JSON.parseArray(outbound.getExtInfo(), OutboundItemInfo.class);
+            items.stream().forEach(t->outBoundItemDao.insert(t));
+            //更新出库订单状态
+            Long id = outBoundDao.updateStatus(outboundId, OutBoundStatusEnum.IN_STOCK.getCode());
+            if (id>0){
+                result=true;
+            }
+        }catch (Exception e){
+            throw new SQLException("数据库保存异常");
+        }finally {
+            return result;
+        }
     }
 }

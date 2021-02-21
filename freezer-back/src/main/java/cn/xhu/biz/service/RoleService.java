@@ -56,6 +56,6 @@ public interface RoleService {
 
     List<Role> queryRolesByUser(ReqUserRoleVO req) ;
 
-    Role queryById(Long id);
+    RespRoleVO queryById(Long id);
 
 }

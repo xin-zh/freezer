@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xhu.biz.dao.CustomerDao">
+    <insert id="insert">
+        insert into customer(customer_name, real_name, customer_psw, sex, age, identify, customer_tel)
+        values (#{customerName},#{realName},#{customerPsw},#{sex}.#{age},#{identify},#{customerTel})
+    </insert>
+    <update id="update">
+        update customer
+        <set>
+            <if test="customerName!=null and customerName!=''">
+               customer_name=#{customerName},
+            </if>
+            <if test="realName!=null and realName!=''">
+                real_name=#{realName},
+            </if>
+            <if test="customerPsw!=null and customerPsw!=''">
+                customer_psw=#{customerPsw},
+            </if>
+            <if test="sex!=null and sex!=''">
+                sex=#{sex},
+            </if>
+            <if test="age!=null and age!=''">
+                age=#{age},
+            </if>
+            <if test="identify!=null and identify!=''">
+                identify=#{identify},
+            </if>
+            <if test="customerTel!=null and customerTel!=''">
+                customer_tel=#{customerTel},
+            </if>
+            where id=#{id}
+        </set>
+    </update>
+    <delete id="delete">
+        delete from customer
+        where id=#{id}
+    </delete>
+    <select id="queryPageCustomers" resultType="cn.xhu.core.pojo.Customer">
+        select * from customer
+        <where>
+            1=1
+            <if test="customerName!=null and customerName!=''">
+              and customer_name=#{customerName}
+            </if>
+            <if test="realName!=null and realName!=''">
+                and real_name=#{realName}
+            </if>
+            <if test="customerTel!=null and customerTel!=''">
+                and customer_tel=#{customerTel}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+    <select id="queryAllCustomers" resultType="java.lang.Integer">
+        select count(*) from customer
+        <where>
+            1=1
+            <if test="customerName!=null and customerName!=''">
+                and customer_name=#{customerName}
+            </if>
+            <if test="realName!=null and realName!=''">
+                and real_name=#{realName}
+            </if>
+            <if test="customerTel!=null and customerTel!=''">
+                and customer_tel=#{customerTel}
+            </if>
+        </where>
+    </select>
+    <select id="queryByCondition" resultType="cn.xhu.core.pojo.Customer">
+        select * from customer
+        where customer_name=#{userName} and customer_psw=#{password}
+    </select>
+    <select id="queryById" resultType="cn.xhu.core.pojo.Customer">
+        select * from customer where id=#{id}
+    </select>
+</mapper>

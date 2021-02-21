@@ -47,7 +47,7 @@ public class RoleController {
         if (id == null) {
             return ResponseDTO.createFailResponse("传的ID错误");
         }
-        Role role = roleService.queryById(id);
+        RespRoleVO role = roleService.queryById(id);
         return ResponseDTO.createSuccessResponse(role);
     }
 

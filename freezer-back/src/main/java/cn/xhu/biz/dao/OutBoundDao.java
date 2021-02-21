@@ -23,4 +23,6 @@ public interface OutBoundDao {
 
     Outbound queryById(@Param("id") Long id);
 
+    Long updateStatus(@Param("outboundId") Long outBoundId,@Param("status") Integer status);
+
 }

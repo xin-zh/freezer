@@ -17,6 +17,9 @@
             <if test="status!=null and status!=''">
                 status=#{status},
             </if>
+            <if test="extInfo!=null and extInfo!=''">
+                ext_info=#{extInfo},
+            </if>
             <if test="isMail!=null and isMail!=''">
                 is_mail=#{isMail},
             </if>
@@ -25,6 +28,12 @@
             </if>
             update_time=now()
         </set>
+        where id=#{id}
+    </update>
+    <update id="updateStatus">
+        update outbound
+        set status=#{status}
+        where id=#{outboundId}
     </update>
     <select id="queryPageOutbound" resultType="cn.xhu.core.pojo.Outbound">
         select * from outbound

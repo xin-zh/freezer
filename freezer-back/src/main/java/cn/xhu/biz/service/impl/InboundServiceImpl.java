@@ -12,6 +12,8 @@ import cn.xhu.core.req.inbound.ReqInboundVO;
 import cn.xhu.core.req.inbound.ReqPageQueryInboundVO;
 import cn.xhu.core.req.inbound.SaveInboundReqVO;
 import cn.xhu.core.resp.RespInboundVO;
+import cn.xhu.enums.InboundStatusEnum;
+import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -41,23 +43,8 @@ public class InboundServiceImpl implements InboundService {
         //新增
         if (request.getId()==null){
             inboundId = inboundDao.insert(reqInboundVO);
-            //保存子项信息
-            if(CollectionUtils.isNotEmpty(request.getItems())){
-                request.getItems().stream().forEach(t->inboundItemDao.insert(t));
-            }
         }else{//修改
             inboundId = inboundDao.update(reqInboundVO);
-            List<InboundItemInfo> items = inboundItemDao.queryAllItems(request.getInboundNo());
-            if(CollectionUtils.isNotEmpty(items)) {
-                List<String> itemNames = items.stream().map(t -> t.getItemName()).collect(Collectors.toList());
-                for (InboundItemInfo item : request.getItems()) {
-                    if (itemNames.contains(item.getItemName())) {
-                        inboundItemDao.update(item);
-                    } else {
-                        inboundItemDao.insert(item);
-                    }
-                }
-            }
         }
         return inboundId;
     }
@@ -89,6 +76,27 @@ public class InboundServiceImpl implements InboundService {
             throw new SQLException("查询入库订单信息失败");
         }finally {
             return respInboundVO;
+        }
+    }
+
+    @Override public Long changeStatus(Long inboundId, Integer status) {
+        return inboundDao.updateStatus(inboundId, status);
+    }
+
+    @Override public boolean handleInbound(Long inboundId) throws SQLException {
+        boolean result=false;
+        try {
+            Inbound inbound = inboundDao.queryById(inboundId);
+            List<InboundItemInfo> items = JSON.parseArray(inbound.getExtInfo(), InboundItemInfo.class);
+            items.stream().forEach(t -> inboundItemDao.insert(t));
+            Long id = inboundDao.updateStatus(inboundId, InboundStatusEnum.IN_STOCK.getCode());
+            if (id>0){
+                result=true;
+            }
+        }catch (Exception e){
+            throw new SQLException("数据库保存异常");
+        }finally {
+            return result;
         }
     }
 }
