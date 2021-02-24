@@ -5,6 +5,7 @@ import cn.xhu.biz.service.UserService;
 import cn.xhu.common.utils.BeanUtils;
 import cn.xhu.core.dto.ResponseDTO;
 import cn.xhu.core.pojo.User;
+import cn.xhu.core.req.LoginRequestVO;
 import cn.xhu.core.req.role.ReqPageQueryRoleVO;
 import cn.xhu.core.req.user.ReqPageQueryUserVO;
 import cn.xhu.core.req.user.ReqUserVO;
@@ -25,11 +26,23 @@ import javax.annotation.Resource;
  */
 @Controller
 @RequestMapping("/user")
+@CrossOrigin
 public class UserController {
     @Resource
     private UserService userService;
     @Resource
     private RoleService roleService;
+
+    @ResponseBody
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    public ResponseDTO login(@RequestBody LoginRequestVO loginRequestVO){
+        RespUserVO respUserVO = userService.queryUserByCondition(loginRequestVO);
+        if (respUserVO==null)
+            return ResponseDTO.createFailResponse("用户名或密码错误");
+//        roleService.queryRolesByUser()
+        return ResponseDTO.createSuccessResponse(respUserVO);
+    }
+
 
     @ResponseBody
     @RequestMapping(value = "list",method = RequestMethod.POST)
